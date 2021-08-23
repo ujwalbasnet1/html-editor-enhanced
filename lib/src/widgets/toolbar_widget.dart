@@ -20,6 +20,7 @@ class ToolbarWidget extends StatefulWidget {
     Key? key,
     required this.controller,
     required this.htmlToolbarOptions,
+    required this.enable,
   }) : super(key: key);
 
   @override
@@ -88,6 +89,7 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
 
   @override
   void initState() {
+    _enabled = widget.enable;
     widget.controller.toolbar = this;
     for (var t in widget.htmlToolbarOptions.defaultToolbarButtons) {
       if (t is FontButtons) {
@@ -304,15 +306,12 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
       return PointerInterceptor(
         child: AbsorbPointer(
           absorbing: !_enabled,
-          child: Opacity(
-            opacity: _enabled ? 1 : 0.5,
-            child: Padding(
+          child: Padding(
               padding: const EdgeInsets.all(5.0),
               child: Wrap(
                 runSpacing: widget.htmlToolbarOptions.gridViewVerticalSpacing,
                 spacing: widget.htmlToolbarOptions.gridViewHorizontalSpacing,
                 children: _buildChildren(),
-              ),
             ),
           ),
         ),
@@ -321,9 +320,8 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
         ToolbarType.nativeScrollable) {
       return PointerInterceptor(
         child: AbsorbPointer(
-          absorbing: !_enabled,
-          child: Opacity(
-            opacity: _enabled ? 1 : 0.5,
+          // absorbing: !_enabled,
+          
             child: Container(
               height: widget.htmlToolbarOptions.toolbarItemHeight + 15,
               child: Padding(
@@ -342,7 +340,7 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                 ),
               ),
             ),
-          ),
+          
         ),
       );
     }
