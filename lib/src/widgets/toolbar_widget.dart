@@ -15,6 +15,7 @@ class ToolbarWidget extends StatefulWidget {
   /// The [HtmlEditorController] is mainly used to call the [execCommand] method
   final HtmlEditorController controller;
   final HtmlToolbarOptions htmlToolbarOptions;
+  final bool? enable;
 
   const ToolbarWidget({
     Key? key,
@@ -89,7 +90,7 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
 
   @override
   void initState() {
-    _enabled = widget.enable;
+    _enabled = widget.enable ?? true;
     widget.controller.toolbar = this;
     for (var t in widget.htmlToolbarOptions.defaultToolbarButtons) {
       if (t is FontButtons) {
