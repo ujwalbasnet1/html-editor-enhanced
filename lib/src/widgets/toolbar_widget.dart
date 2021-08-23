@@ -21,7 +21,7 @@ class ToolbarWidget extends StatefulWidget {
     Key? key,
     required this.controller,
     required this.htmlToolbarOptions,
-    required this.enable,
+    this.enable,
   }) : super(key: key);
 
   @override
