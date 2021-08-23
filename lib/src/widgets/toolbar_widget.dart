@@ -15,13 +15,11 @@ class ToolbarWidget extends StatefulWidget {
   /// The [HtmlEditorController] is mainly used to call the [execCommand] method
   final HtmlEditorController controller;
   final HtmlToolbarOptions htmlToolbarOptions;
-  final bool? enable;
 
   const ToolbarWidget({
     Key? key,
     required this.controller,
     required this.htmlToolbarOptions,
-    this.enable,
   }) : super(key: key);
 
   @override
@@ -90,7 +88,6 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
 
   @override
   void initState() {
-    _enabled = widget.enable ?? true;
     widget.controller.toolbar = this;
     for (var t in widget.htmlToolbarOptions.defaultToolbarButtons) {
       if (t is FontButtons) {
@@ -307,12 +304,15 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
       return PointerInterceptor(
         child: AbsorbPointer(
           absorbing: !_enabled,
-          child: Padding(
+          child: Opacity(
+            opacity: _enabled ? 1 : 0.5,
+            child: Padding(
               padding: const EdgeInsets.all(5.0),
               child: Wrap(
                 runSpacing: widget.htmlToolbarOptions.gridViewVerticalSpacing,
                 spacing: widget.htmlToolbarOptions.gridViewHorizontalSpacing,
                 children: _buildChildren(),
+              ),
             ),
           ),
         ),
@@ -321,8 +321,9 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
         ToolbarType.nativeScrollable) {
       return PointerInterceptor(
         child: AbsorbPointer(
-          // absorbing: !_enabled,
-          
+          absorbing: !_enabled,
+          child: Opacity(
+            opacity: _enabled ? 1 : 0.5,
             child: Container(
               height: widget.htmlToolbarOptions.toolbarItemHeight + 15,
               child: Padding(
@@ -341,7 +342,7 @@ class ToolbarWidgetState extends State<ToolbarWidget> {
                 ),
               ),
             ),
-          
+          ),
         ),
       );
     }
